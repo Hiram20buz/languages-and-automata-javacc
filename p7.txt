@@ -1,0 +1,94 @@
+Numpy.import
+Keras.import
+Pandas.include
+TensorFlow.import
+
+begin programa:
+
+int hola:10
+int a
+int b
+int c
+
+fn d a,b,c:
+.
+
+fn x:
+"hola" print
+.
+def y:
+hola as h
+.
+def z:
+h print
+.
+
+
+if a==b:
+h print
+.
+
+for a:0 a:10 a++:
+f print
+.
+
+toString 10 .
+
+foreach libro in libreria:
+libro print
+.
+
+CREATE DATABASE itt
+USE itt
+
+CREATE TABLE CLASE(
+IdClase INT,
+Nombre TEXT
+)
+CREATE TABLE Alumno(
+IdAlumno INT,
+Nombre TEXT
+
+)
+SELECT * FROM CLASE
+SELECT Nombre FROM CLASE WHERE ID=10
+
+INSERT INTO CLASE (Nombre) VALUES ("Fisica")
+INSERT INTO CLASE (Nombre) VALUES ("Matematicas")
+PRINT "Salvame"
+delete from CLASE where Nombre="Fisica"
+
+UPDATE  CLASE SET Nombre="Fisica" where Nombre="Matematicas"
+
+Drop Table Alumno
+
+Declare @Total INT
+
+--este es un comentario
+
+PRINT "Salvame"
+BACKUP DATABASE itt TO DISK = "C"
+ALTER TABLE CLASE ADD Descripcion TEXT
+ALTER TABLE CLASE DROP COLUMN Descripcion 
+
+CREATE INDEX idx_pname
+ON Persons (LastName, FirstName)
+PRINT "Salvame"
+
+console.log(12);
+let x=10;
+Boolean(10 > 9);
+Number("314");
+Number(hola);
+Number(" ");
+
+switch (x) {
+  case 0:
+  case 2:
+   
+  
+}
+
+while (1) {
+  console.log(12);
+}

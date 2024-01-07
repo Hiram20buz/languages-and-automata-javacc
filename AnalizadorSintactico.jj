@@ -1,0 +1,542 @@
+//Santiago Sanchez Ricardo Rioda 
+//Lenguajes y automatas I
+
+PARSER_BEGIN(AnalizadorSintactico)
+import java.io.*;
+import java.util.*;
+
+import java.util.ArrayList;
+import java.util.List;
+
+//El archivo se debe de nombrar como la clase principal
+
+class AnalizadorSintactico
+{
+	public static void main( String[] args )throws ParseException, Exception
+	{
+		try
+		{		
+     		AnalizadorSintactico analizador = new AnalizadorSintactico( System.in ) ;
+			analizador.Programa();
+			//System.out.println("-----------------------*-----------------------*");
+			//System.out.println("\nEjecutado exitosamente...\n");
+		}
+		catch(ParseException e)
+		{
+			System.out.println(e.getMessage());
+			System.out.println("\nError en ejecucion...");
+		}
+
+            catch (TokenMgrError tErr) 
+		{
+                  System.out.println("\nTokenMgrError...");
+                  System.out.println("\nCaracter o simbolo no definido en los tokens...");
+			System.out.println(tErr.getMessage());
+			System.out.println("\nError en ejecucion...");
+		}
+
+	}	
+}
+PARSER_END(AnalizadorSintactico)
+//Tokens con multiples valores
+TOKEN:
+{ 
+    
+	<Mostrar: "print"|"printf"|"println!"|"println"|"alert"|"echo"|"cout" >{System.out.println("Imprime" );}
+     |<Insercion: "push"|"append"|"insert" >{System.out.println("Insercion                 " + image);} //Token 1     
+     |<Eliminar: "shift"|"del"|"pop"|"remove" >{System.out.println("Eliminar                 " + image);} //Token 2
+     |<Condicional: "unless"|"if"|"until"|"match"|"Ok"|"with" >{System.out.println("\nCondicional");} //Token 3
+     |<Ciclo: "for"|"loop"|"CYCLE" >{System.out.println("\nCiclo");} //Token 4
+     |<Secundario: "else"|"Err"|"finally"|"default"|"elseif"|"elif"|"catch"|"except" >{System.out.println("Secundario                 " + image);} //Token 5
+     |<Funcion: "fn"|"def"|"func"|"fun"|"function"|"void" > //Token 6
+     |<Definicion: "let"|"var" >
+     |<ModificacionVariable: "mut"|"global"|"const"|"static" >{System.out.println("ModificacionVariable                  " + image);} //Token 8
+     
+     |<Salto: "break"|"continue"|"pass"|"goto" >{System.out.println("Salto                  " + image);} //Token 9
+     |<Resultante: "exec"|"do" >{System.out.println("Resultante                  " + image);} //Token 10
+     |<ExpMate: "Infinity"|"NaN" >{System.out.println("ExpMate                  " + image);} //Token 11
+    
+     |<Pertenencia: "is"|"in"|"!in"|"!is" >
+     |<TipoDato: "int"|"long"|"complex"|"bool"|"boolean"|"string"|"float"|"double"|"decimal"|"single"|"byte"|"char"|"short"|"integer"|"int16"|"int32"|"int64"|"real" > //Token 13
+     |<Conversion: "toString"|"parseInt" >{System.out.println("\nConversion");} //Token 14
+     |<Alias: "as"|"as?"|"typealias" >{System.out.println("Alias" );}
+     |<Accionar: "throw"|"THEN" >{System.out.println("Accionar                 " + image);} //Token 16
+     |<Aplicacion: "USE"|"USING" >
+     |<Comparador: "THAN"|"TIES" >{System.out.println("Comparador                 " + image);} //Token 18
+
+     |<Regresar: "return"|"yield"|"raise" >{System.out.println("Regresar                 " + image);} //Token 19
+     |<Importar: "import"|"include" > //Token 20
+     |<Pregunta: "IsFinity"|"isNaN" >{System.out.println("Pregunta                 " + image);} //Token 21
+     
+     |<Nulo: "Null"|"null" >{System.out.println("Nulo                 " + image);} //Token 22
+     |<OpRelacional: "<"|">"|"=="|"<="|">="|"!=" >
+     |<OpLogico: "and" | "or" | "not"|"xor"|"&&"| "||"  >{System.out.println("OpLogico                 " + image);} //Token 24
+    // |<OpAritmetico: "+"|"-"|"*"|"**"|"/"|"%" >{System.out.println("OpAritmetico                 " + image);} //Token 18
+     |<RegresaTipo: "Typeof"|"type" >{System.out.println("RegresaTipo                 " + image);} //Token 18
+     |<PropiedadObjeto: "length"|"sizeof" >{System.out.println("PropiedadObjeto                 " + image);} //Token 18
+     //|<OpAsignacion: "="|"+="|"-="|"/="|"*="|"%=" >{System.out.println("OpAsignacion                 " + image);} //Token 18
+    // |<ModifSQL: "ALTER"|"DROP"|"CREATE"|"BACKUP"|"USE" >{System.out.println("ModifSQL                 " + image);} //Token 18
+     
+    // |<DefEstructSQL: "TABLE"|"DATABASE"|"INDEX" >{System.out.println("DefEstructSQL                 " + image);} //Token 18
+     |<TipoLlavesSQL: "FOREING"|"UNIQUE"|"PRIMARY" >{System.out.println("TiposLlavesSQL                 " + image);} //Token 18
+     |<EntradaDatos: "input"|"scanf" >{System.out.println("EntradaDatos                 " + image);} //Token 18
+
+     |<FuncMatematicas: "sin"|"sinh"|"sqrt"|"tan"|"tanh"|"trunc"|"acos"|"acosh"|"asin"|"asinh"|"atan"|"ceil"|"cos"|"cosh"|"degrees"|"pow"|"min"|"max"|"round"|"random" >
+     |<OpClauSQL: "BETWEEN"|"LIKE"|"IN" >{System.out.println("OpClauSQL                 " + image);} //Token 18
+     //|<ClausulasSQL: "CONSTRAINT"|"HAVING"|"WHERE" >{System.out.println("ClausulasSQL                 " + image);} //Token 18
+     |<ValBool: "TRUE"|"true"|"FALSE"|"false" >{System.out.println("ValBool                 " + image);} //Token 18
+     |<ModifAcceso: "public"|"private"|"protected" >{System.out.println("ModifAcceso                 " + image);} //Token 18
+
+     |<AlmacenarDifData: "struct"|"union" >{System.out.println("lmacenarDifData                 " + image);} //Token 18
+     |<FuncSQL: "COUNT"|"AVG"|"SUM" >{System.out.println("FuncSQL                 " + image);} //Token 18
+     |<UnionSQL: "INNER"|"LEFT"|"RIGHT"|"FULL" >{System.out.println("UnionSQL                 " + image);} //Token 18
+     |<ConstMate: "Math.E"|"Math.LN2"|"Math.LN10"|"Math.LOG2E"|"Math.LOG10E"|"Math.PI"|"Math.SQRT1_2"|"Math.SQRT2" >{System.out.println("ConstMate                 " + image);} //Token 18
+     |<Colores: "black" |"silver" |"gray" |"white" |"red" |"purple" | "green" |"yellow" |"blue"|"orange"|"green"|"indigo"|"violet"|"pink"|"gold"|"beige"|"brown" >{System.out.println("Colores                 " + image);} //Token 18
+     |<PyLibs: "TensorFlow"|"Scikit-Learn"|"Numpy"|"Keras"|"PyTorch"|"LightGBM"|"Eli5"|"SciPy"|"Theano"|"Pandas"|"socket"|"sys"|"scapy" > //Token 18
+     |<TipoDatosSQL: "INT"|"VARCHAR"|"CHAR"|"BINARY"|"VARBINARY"|"TINYBLOB"|"TINYTEXT"|"TEXT"|"BLOB"|"MEDIUMTEXT"|"MEDIUMBLOB"|"LONGTEXT"|"LONGBLOB"|"DATE"|"DATETIME"|"TIMESTAMP"|"TIME"|"YEAR" > //Token 18
+} 
+
+TOKEN: //Token 50
+{
+      
+      <DataBaseSQLAux: ((["d","D"])(["a","A"])(["t","T"])(["a","A"])(["b","B"])(["a","A"])(["s","S"])(["e","E"]))>
+      |<CreateSQL: ((["c","C"])(["r","R"])(["e","E"])(["a","A"])(["t","T"])(["e","E"]))>
+	|<WhereSQL: ((["w","W"])(["h","H"])(["e","E"])(["r","R"])(["e","E"]))>
+      |<TableSQL: ((["t","T"])(["a","A"])(["b","B"])(["l","L"])(["e","E"]))>
+      |<UpdateSQL: ((["u","U"])(["p","P"])(["d","D"])(["a","A"])(["t","T"])(["e","E"]))>
+      |<SetSQL: ((["s","S"])(["e","E"])(["t","T"]))>
+      |<BackupSQL: ((["b","B"])(["a","A"])(["c","C"])(["k","K"])(["u","U"])(["p","P"]))>
+      |<ToSQL: ((["t","T"])(["o","O"]))>
+      |<DiskSQL: ((["d","D"])(["i","I"])(["s","S"])(["k","K"]))>
+      |<Agregar: ((["a","A"])(["d","D"])(["d","D"]))>
+      |<Columna: ((["c","C"])(["O","o"])(["l","L"])(["u","U"])(["m","M"])(["n","N"]))>
+      |<AlterSQL: ((["a","A"])(["l","L"])(["t","T"])(["e","E"])(["r","R"]))>
+      |<IndexSQL: ((["i","I"])(["n","N"])(["d","D"])(["e","E"])(["x","X"]))>
+      |<OnSQL: ((["o","O"])(["n","N"]))>
+      |<Consola: "console">
+      |<Log: "log">
+      |<Bool: "Boolean">
+      |<NumberJS: "Number">
+      |<Switch: "switch">
+      |<Caso: "case">
+}
+//Tokens con  un valor.
+TOKEN:
+{     
+     <Referencial: "from"|"FROM" >
+
+     |<EspacioNombres: "begin"> {System.out.println("\nBloque begin");} //Token 33
+
+     |<Clase: "class" >{System.out.println("clase ");}
+     |<TipoClase: "abstract" >{System.out.println("TipoClase ");}
+     |<Delegar: "super" >{System.out.println("Delegar ");}
+     |<Dato: "DATA" >{System.out.println("Dato ");}
+     //|<Seleccionador: "use" >{System.out.println("Seleccionador ");}
+     |<ReferenciaObjeto: "this" >{System.out.println("ReferenciaObjeto ");}
+     |<Paquete: "package" >{System.out.println("Paquete ");}
+     |<Evaluar: "eval" >{System.out.println("Evaluar ");}
+     |<FuncionLamda: "lamda" >{System.out.println("FuncionLamda ");}
+     |<ConsultaSQL: "SELECT" >
+     |<InsercionSQL: "INSERT" >
+     |<Intenta: "try" >{System.out.println("Intenta ");}
+     |<SignoDolar: "$" >{System.out.println("SignoDolar ");}
+
+	|<CorcheteIzq: "[" >
+	|<CorcheteDer: "]" >
+	|<LlaveIzq: "{" >
+	|<LlaveDer:"}" >
+	|<ParentesisIzq: "(" >
+	|<ParentesisDer: ")" >
+	|<DosPts: ":">
+	|<PtComa: ";">
+	|<Pt: "." >
+	|<Coma: ",">
+	|<ComillaDoble: "\"" >
+	|<ComillaSimple: "\'" >
+}
+
+//
+TOKEN : 
+{
+	<Mientras:"while">
+      |<foreach:"foreach">
+      |<intoSQL:((["i","I"])(["n","N"])(["t","T"])(["o","O"]))>
+      |<valueSQL:((["v","V"])(["a","A"])(["l","L"])(["u","U"])(["e","E"])(["s","S"]))>
+      |<PrintSQL:((["p","P"])(["r","R"])(["i","I"])(["n","N"])(["t","T"]))>
+      |<DeleteSQL:((["d","D"])(["e","E"])(["l","L"])(["e","E"])(["t","T"])(["e","E"]))>
+      |<DropSQL:((["d","D"])(["r","R"])(["o","O"])(["p","P"]))>
+      |<VariableSQL:((["d","D"])(["e","E"])(["c","C"])(["l","L"])(["a","A"])(["r","R"])(["e","E"]))>
+      |<Arroba:"@">
+     
+}
+
+//Operadores Asignacion Multifuncion
+TOKEN : 
+{
+	<Igual:"=">
+     
+}
+
+//Operadores Aritmeticos Multifuncion
+TOKEN : 
+{
+	<Mas:"+">
+  | <Menos: "-">
+  | <Multiplicacion: "*">
+  | <Incremento: "++">
+  | <Decremento: "--">
+}
+//Expresiones regulares
+//Cadena es diferente a caracter,string vs char
+TOKEN :
+{
+     	<Identificador: <Letra>(<Letra> | <Numeros> | "_")*>
+	|<Numeros: (["0"-"9"])+ | (["0"-"9"])+["."](["0"-"9"])+ >
+	|<Letra: (["a"-"z","A"-"Z"]) >
+	|<Cadena: (<ComillaDoble>(<Letra> | <Numeros> | "_" | " " )*<ComillaDoble>)>
+	|<Caracter : "'"["a"-"z","A"-"Z"]"'" >
+}  
+
+//Caracteres a saltar o ignorar.
+SKIP:
+{
+  " "
+| "\r"
+| "\t"
+| "\n"
+| "\r\n"
+| "//"
+| "/*"
+| "*/"
+}
+
+//Se llamaran las funciones
+void Programa():
+{ }
+{
+  ((EspacioNombres())*) <EOF>	
+	
+}
+
+//1. Importar
+void Importar():
+{System.out.println("\nLibreria importada"); }
+{
+	(<PyLibs><Pt><Importar>)
+}
+
+//2. EspacioNombres
+void EspacioNombres():
+{ }
+{	
+	((Importar())* <EspacioNombres> <Identificador> <DosPts> (InstruccionesSQL()|InstruccionesBegin()|InstruccionesJS())*)		
+}
+
+//3. InstruccionesBegin
+void InstruccionesBegin():
+{ }
+{	
+	(EleccionTipoDato1()| EleccionMetodoA1() | Condicional() | Ciclo() | Conversion() | CicloEach())	
+}
+
+void EleccionTipoDato1():
+{ }
+{
+	((<TipoDato>) <Identificador> (declaracionGlobal()))
+}
+
+void EleccionMetodoA1():
+{ }
+{
+	(<Funcion> sentenciaMetodo())
+}
+
+void Parametros():
+{ }
+{
+	(<Coma><Identificador>)*
+}
+
+//5. sentenciaMetodo
+void sentenciaMetodo():
+{System.out.println("\nMetodo");}
+{
+	(<Identificador>(<Identificador>Parametros())?<DosPts> (Instrucciones())*<Pt>)
+}
+
+//9. declaracionGlobal
+void declaracionGlobal():
+{System.out.println("\nVariable Global");}
+{
+	((<DosPts> valor())?)
+}
+
+void valor():
+{ } 
+{
+      //comente el identificador aqui
+	(<Numeros>  | <Cadena> | <Caracter>)
+}
+
+void Instrucciones():
+{ }
+{
+	(		
+	      
+		//Imprime()|Alias()
+            x() | Imprime()
+		
+	)
+}
+
+// 5. y
+void y():
+{}
+{
+	  (<Alias><Identificador>)|(<Mostrar>)
+}
+
+// 5. x
+void x():
+{}
+{
+	  (<Identificador>y())
+}
+
+// 5. imprime
+void Imprime():
+{}
+{
+	  ((valor())  <Mostrar>)
+}
+
+// 5. alias
+void Alias():
+{System.out.println("Alias");}
+{
+	  (<Identificador> <Alias> <Identificador>)
+}
+
+// 5. comparar
+void Comparacion():
+{}
+{
+	  (<Identificador> <OpRelacional> <Identificador>)
+}
+
+// 5. condiciones
+void Condicional():
+{}
+{
+	  (<Condicional> (Comparacion())+ <DosPts> Instrucciones() <Pt>)
+}
+
+// 5. condiciones
+void Ciclo():
+{}
+{
+	  (<Ciclo> <Identificador><DosPts><Numeros> <Identificador><DosPts><Numeros> <Identificador><Incremento> <DosPts> Instrucciones() <Pt>)
+}
+
+// 5. conversion
+void Conversion():
+{}
+{
+	  (<Conversion> (<Identificador>| valor()) <Pt>)
+}
+
+// 5. foreach
+void CicloEach():
+{System.out.println("\nforeach");}
+{
+	  (<foreach> <Identificador> <Pertenencia> <Identificador> <DosPts> Instrucciones() <Pt>)
+}
+
+void InstruccionesSQL():
+{ }
+{ 
+	(
+		  usoBDSQL()
+		| consultaSQL()
+           | a() |InsertarSQL() |PrintSQL() |DeleteSQL()|UpdateSQL()|DropSQL()|VariableSQL()|ComentarioSQL()|RespaldoSQL()|AlterarTablaSQL()
+	)
+}
+
+// 8. usoBDSQL
+void usoBDSQL():
+{System.out.println("Uso BD SQL");} 
+{
+	(<Aplicacion> <Identificador>)
+}
+
+// 18. consultaSQL
+void consultaSQL():
+{System.out.println("Consulta SQL");} 
+{
+	(<ConsultaSQL> ((<Multiplicacion>)|((<Identificador>)(<Coma><Identificador>)*)) <Referencial> ((<Identificador>)(<Coma><Identificador>)*) (<WhereSQL> <Identificador> <Igual> (<Numeros>))?)
+}
+
+// 7. crearBDSQL
+void crearBDSQL():
+{System.out.println("\nCrear BD SQL");} 
+{
+	( <DataBaseSQLAux> <Identificador> )
+}
+
+
+// 18. crearTableSQ
+void crearTableSQL():
+{System.out.println("Crear tabla SQL");} 
+{
+	( <TableSQL> <Identificador> <ParentesisIzq> (<Identificador> <TipoDatosSQL>)? (<Coma><Identificador> <TipoDatosSQL>)* <ParentesisDer> )
+}
+
+// 18. crearIndexSQ
+void crearIndexSQL():
+{System.out.println("Crear index SQL");} 
+{
+	( <IndexSQL> <Identificador> <OnSQL> <Identificador>  <ParentesisIzq> (<Identificador> ) (<Coma><Identificador> )* <ParentesisDer> )
+}
+
+// 5. a
+void a():
+{}
+{
+	  (<CreateSQL>b())
+}
+
+// 5. b
+void b():
+{}
+{
+	  (crearTableSQL()|crearBDSQL()|crearIndexSQL())
+}
+
+
+void InsertarSQL():
+{System.out.println("Insertar SQL");} 
+{
+	( <InsercionSQL> <intoSQL> <Identificador> <ParentesisIzq> (<Identificador>| valor())  <ParentesisDer> <valueSQL> <ParentesisIzq> (<Identificador>| valor())  <ParentesisDer> )
+}
+
+void PrintSQL():
+{System.out.println("Imprimir SQL");} 
+{
+	( <PrintSQL> valor())
+}
+
+void DeleteSQL():
+{System.out.println("Delete SQL");} 
+{
+	( <DeleteSQL> <Referencial> <Identificador> <WhereSQL> <Identificador> <Igual>(<Identificador>| valor())  )
+}
+
+void UpdateSQL():
+{System.out.println("Update SQL");} 
+{
+	( <UpdateSQL>  <Identificador> <SetSQL> <Identificador> <Igual>(<Identificador>| valor()) <WhereSQL> <Identificador> <Igual>(<Identificador>| valor())  )
+}
+
+void DropSQL():
+{System.out.println("Drop SQL");} 
+{
+	( <DropSQL> (<DataBaseSQLAux>|<TableSQL>)  <Identificador>  )
+}
+
+
+void VariableSQL():
+{System.out.println("Variable SQL");} 
+{
+	( <VariableSQL> <Arroba>  <Identificador> <TipoDatosSQL>  )
+}
+
+void ComentarioSQL():
+{System.out.println("Comentario SQL");} 
+{
+	( <Decremento> (<Identificador>)*  )
+}
+
+void RespaldoSQL():
+{System.out.println("Backup SQL");} 
+{
+	( <BackupSQL> <DataBaseSQLAux> <Identificador> <ToSQL> <DiskSQL> <Igual> (<Identificador>|<Cadena>)  )
+}
+
+void AlterarTablaSQL():
+{} 
+{
+	( <AlterSQL> <TableSQL> <Identificador> (AltDrop()|AltAdd())  )
+}
+
+void AltDrop():
+{System.out.println("Alter table Drop SQL");} 
+{
+	( <DropSQL> <Columna> <Identificador>  )
+}
+
+void AltAdd():
+{System.out.println("Alter table Add SQL");} 
+{
+	( <Agregar> <Identificador><TipoDatosSQL>  )
+}
+
+
+void InstruccionesJS():
+{ }
+{ 
+	(
+		  ImprimirJS()|variableJS()|BooleanJS()|NumberJS()|SwitchJS()|WhileJS()
+		
+	)
+}
+
+
+void ImprimirJS():
+{System.out.println("\nImprimir por consola JS");} 
+{
+	( <Consola> <Pt> <Log> <ParentesisIzq> (valor()|<Identificador>) <ParentesisDer> <PtComa>  )
+}
+
+void variableJS():
+{System.out.println("Variable JS");} 
+{
+	( <Definicion><Identificador> <Igual> (valor()|<Identificador>)  <PtComa>  )
+}
+
+
+
+void BooleanJS():
+{System.out.println("Boolean Function JS");} 
+{
+	( <Bool> <ParentesisIzq> (<Numeros> <OpRelacional> <Numeros>) <ParentesisDer>   <PtComa>  )
+}
+
+void NumberJS():
+{System.out.println("Number Function JS");} 
+{
+	( <NumberJS> <ParentesisIzq> (valor()|<Identificador>) <ParentesisDer>   <PtComa>  )
+}
+
+void SwitchJS():
+{System.out.println("Switch JS");} 
+{
+	( <Switch> <ParentesisIzq> (valor()|<Identificador>) <ParentesisDer>   <LlaveIzq> (CaseJS())* <LlaveDer>   )
+}
+
+void CaseJS():
+{System.out.println("Case JS");} 
+{
+	( <Caso>  (valor()|<Identificador>)    <DosPts>  )
+}
+
+void WhileJS():
+{System.out.println("While JS");} 
+{
+	( <Mientras>  <ParentesisIzq> (valor()|<Identificador>) <ParentesisDer>   <LlaveIzq> InstWhileJS() <LlaveDer> )
+}
+
+void InstWhileJS():
+{} 
+{
+	ImprimirJS()|variableJS()|BooleanJS()|NumberJS()
+}
