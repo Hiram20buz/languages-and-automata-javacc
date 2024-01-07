@@ -8,3 +8,12 @@ brew install javacc
 ```
 brew cask install docker
 ```
+or ...
+```
+brew install docker --cask
+```
+### Docker commands
+```
+docker --version
+```
+
