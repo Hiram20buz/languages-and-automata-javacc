@@ -15,9 +15,7 @@ WORKDIR /app
 # Extract JavaCC from the tar.gz file into the current directory
 RUN tar -xzf javacc-7.0.12.tar.gz
 
-
 RUN cp -r javacc-javacc-7.0.12/bootstrap javacc-javacc-7.0.12/target
-
 
 # Run JavaCC on AnalizadorSintactico.jj
 RUN javacc-javacc-7.0.12/scripts/javacc AnalizadorSintactico.jj
@@ -28,4 +26,3 @@ RUN javac AnalizadorSintactico.java
 # Set the entry point when the container starts (you can adjust this according to your needs)
 #CMD ["ls"]
 CMD ["java", "AnalizadorSintactico"]
-
